@@ -40,9 +40,10 @@ module Arturaz
         end
 
         record.send "#{options[:to]}=", slug
-        if record.class.find(:first, :conditions => [
-          "#{options[:to]}=? AND #{primary_key}!=?", slug, record.id
-        ])
+        conditions = (record.id.nil?) ? ["#{options[:to]}=?", slug] \
+          : ["#{options[:to]}=? AND #{primary_key}!=?", slug, record.id]
+
+        if record.class.find(:first, :conditions => conditions)
           record.errors.add attr, options[:message]
         end
       end
