@@ -34,7 +34,7 @@ module Arturaz
 
       validates_each(attr, options) do |record, attr, value|
         if block.nil?
-          slug = value.slugize
+          slug = value.to_s.slugize
         else
           slug = block.call(record, value)
         end
